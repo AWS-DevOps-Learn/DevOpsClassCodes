@@ -1,0 +1,42 @@
+pipeline{
+    agent any
+    stages{
+        stage('CheckoutCode'){
+            steps{
+                git branch: 'master', url: 'https://github.com/AWS-DevOps-Learn/DevOpsClassCodes.git'   
+            }
+             
+        }
+        
+        stage('code compile'){
+            steps{
+                sh 'mvn compile'
+                echo "Compiling is done"
+            }
+        }
+        
+        stage('code test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage('Checkthe Quality of Code'){
+            steps{
+                sh "mvn checkstyle:checkstyle"
+                recordIssues sourceCodeRetention: 'LAST_BUILD', tools: [checkStyle()]
+            }
+        }
+        stage('Build package'){
+            steps{
+                sh 'mvn package'
+            }
+        }
+        stage('deploy'){
+            steps{
+                sshagent(['7e1b85c6-3572-4ab3-bbbc-a135b64c8bef']) {
+                sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/declarative-pipeline/target/addressbook.war ubuntu@13.201.127.231:/opt/apache-tomcat-8.5.100/webapps/"
+                }
+            }
+        }
+    }
+}
