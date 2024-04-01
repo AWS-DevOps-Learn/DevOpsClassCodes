@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('CheckoutCode'){
             steps{
-                git branch: 'master', url: 'https://github.com/AWS-DevOps-Learn/DevOpsClassCodes.git'   
+                git url: 'https://github.com/AWS-DevOps-Learn/DevOpsClassCodes.git'   
             }
              
         }
