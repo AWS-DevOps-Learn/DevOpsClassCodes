@@ -34,7 +34,7 @@ pipeline{
         stage('deploy'){
             steps{
                 sshagent(['7e1b85c6-3572-4ab3-bbbc-a135b64c8bef']) {
-                sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/declarative-pipeline/target/addressbook.war ubuntu@13.201.127.231:/opt/apache-tomcat-8.5.100/webapps/"
+                sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/declarative-pipeline/target/addressbook.war ubuntu@65.1.114.50:/opt/apache-tomcat-8.5.100/webapps/"
                 }
             }
         }
